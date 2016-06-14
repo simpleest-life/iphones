@@ -1,0 +1,21 @@
+@import 'vars';
+%clear{
+	content: "";
+	display: block;
+	clear: both;
+};
+@for $i from 5 through 10{
+    .with-#{$i}::after{
+    @extend %clear;
+    }
+	.with-#{$i}.col .col{
+	width:percentage(1/$i);
+	}
+}
+@media screen and(max-width:$small){
+	@for $i from 5 through 10{
+		.width-#{$i}.col .col{
+			width: 100%;
+		}
+	}
+}

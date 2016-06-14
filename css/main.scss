@@ -1,0 +1,625 @@
+@import 'vars';
+@import 'font';
+@import 'reset';
+@import 'gridsystem';
+
+$img-path:'../images/';
+$nav_width:(
+	logo:20px,
+	mac:31px,
+	ipad:30px,
+	iphone:40px,
+	watch:44px,
+	tv:20px,
+	music:40px,
+	support:57px,
+	search:40px,
+	bag:18px
+	);
+
+
+@each $nav in map_keys($nav_width){
+   .#{$nav} a{
+   	background: url($img-path+$nav+'.svg') center center no-repeat;
+    width: map_get($nav_width,$nav);
+   }
+}
+%hidden_text{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+#global_nav{
+  width: 100%;
+  height:100%;
+  background:#333;
+  margin:0 auto;
+}
+.small_nav{
+	display: none;
+}
+#check{
+  display: none;
+}
+.big_nav {
+	margin: 0 auto;
+  box-sizing:border-box;
+  padding: 0 40px;
+  height: 44px;
+  text-align: justify;
+	.gn_link{
+     display:block;
+     padding:0 10px;
+  	 height: 44px;
+  	 position: relative;
+	}
+	.gn_item{
+		display: inline-block;
+	}
+	span{
+     @extend %hidden_text;
+    }
+  &::after{
+  	@extend %hide;
+  }
+  li{
+      display: inline-block;
+      line-height: 44px;
+      color:#fff;
+  }
+}
+@media screen and(max-width:$small){
+	.center_content{
+		.big_nav{
+      visibility: hidden;
+      height:0;
+      transition:height .3s ease;
+       li{
+          display: block;
+          transform:translateY(-10px) scale(1.2,1.2);
+       }
+    }
+	    .small_nav{
+	    	display: block;
+	    	height: 48px;
+	    	li{
+          width:48px;
+          height: 48px;
+          position: absolute;
+          line-height: 48px;
+          span{
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+          }
+          .span1{
+            width: 17px;
+            height: 1px;
+            background: #fff;
+            position: absolute;
+            left: 16px;
+            top:18px;
+          }
+          .span2{
+            width: 17px;
+            height:1px;
+            background: #fff;
+            position: absolute;
+            left: 16px;
+            bottom:18px
+          }
+        }
+	    	li:nth-child(1){
+	    		left: 0;
+	    		top: 0;
+	    	}li:nth-child(2){
+	    		left: 0;
+	    		right: 0;
+	    		top: 0;
+	    		margin: auto;
+	    		background: url($img-path+'logo_small.svg') center center no-repeat;
+	    	}li:nth-child(3){
+	    		top: 0;
+	    		right: 0;
+	    		background: url($img-path+'bag_small.svg') center center no-repeat;
+
+	    	}
+	    }
+		}
+}
+@media screen and(max-width: $small){
+  #check:checked + .center_content{
+    background: black;
+      .big_nav{
+        width:100%;
+        height: 600px;
+        visibility: visible;
+        position: absolute;
+        top:48px;
+        left:0;
+        z-index: 20;
+        background: black;
+        li{ 
+          display: block;
+          border-bottom: 1px solid #fff;
+          transform:translateY(0) scale(1,1);
+        }
+      }
+      @for $i from 1 through 10{
+          .big_nav li:nth-child(#{$i}){
+            transition:transform 0.5s $i*0.0s ease;
+          }
+        }
+      .small_nav{
+          .span1{
+              transform:rotateZ(45deg) translateY(8px);
+            }
+            .span2{
+              transform:rotateZ(-45deg) translateY(-8px);
+            }
+      }
+  }
+}
+.aside{
+    position: relative;
+    margin-top: 10px;
+    &::after{
+      @extend  %clear;
+    }
+    span{
+     @extend  %hidden_text;
+    }
+}
+.aside li{
+  float: left;
+  height: 200px;
+  width: 25%;
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+   @media screen and(max-width: $medium){
+       width: 50%;
+   }
+   @media screen and(max-width: $small){
+     width: 100%;
+   }
+}
+.aside li a{
+      display: block;
+      height: 200px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 360px 200px;
+      @media screen and(max-width: $medium){
+          background-size: 640px 200px;
+      }
+      @media screen and(max-width: $small){
+        background-size: 736px 200px;
+      }
+}
+$items :iphone_6s, apple_tv, macbook,accessories;
+@for $i from 1 through 4{
+  .aside li:nth-child(#{$i}) a{
+     background-image: url($img-path+nth($items,$i)+'_large.jpg');
+     @media screen and(max-width: $medium){
+          background-image: url($img-path+nth($items,$i)+'_medium.jpg');
+      }
+     @media screen and(max-width: $small){
+          background-image: url($img-path+nth($items,$i)+'_small.jpg');
+      }
+   }
+}
+
+
+%column {
+  float: left;
+  position: relative;
+};
+$rules : (
+    large : 1349px,
+    medium : 1068px,
+    small : 735px,
+);
+$num:12;
+@for $i from 1 through $num{
+  .pull-#{$i}{
+     left: percentage($i/$num);
+  }
+  .push-#{$i}{
+     right: percentage($i/$num);
+  }
+}
+@each $rule in map-keys($rules){
+    @for $i from 1 through $num{
+      .#{$rule}-#{$i}{
+        @extend %column;
+      }
+    }
+}
+@each $rule in map-keys($rules){
+  @media screen and(max-width: map-get($rules,$rule)){
+    @for $i from 1 through $num{
+      .#{$rule}-#{$i}{
+         width: percentage($i/$num);
+      }
+    }
+  }
+}
+
+.red_cross{
+	text-align: center;
+	.exchange{
+		    margin: 0 auto;
+		    padding: 20px 0;
+		    text-align: center;
+		    a{
+		    	color: #08c;
+                font-family: myriad_text;
+		    }
+		    a:hover{
+		    	text-decoration: underline;
+		    }
+		    &::after{
+		    	font-family:app_text;
+                content: "";
+                color: #08c;
+                padding-left: 3px;
+		    };
+	}
+	.redcross-banner{
+		padding: 20px 0;
+		/*margin: 0 auto;*/
+	    display: inline-block;
+	    position: relative;
+	    text-align: center;
+		border-bottom: 1px solid #d6d6d6;
+		.redcross{
+			    display: inline-block;
+			    background-repeat: no-repeat;
+			    background-size: 179px 44px;
+			    height: 44px;
+			    width: 179px;
+			    position: absolute;
+			    vertical-align: center;
+			    top: 13px;
+			    background: url($img-path+'redcross_banner_large.jpg');
+		}
+
+	 span{
+	 	    border-left: 1px solid #d6d6d6;
+            padding-left: 22px;
+            display: inline-block;
+            margin-left: 202px;
+            font-family: myriad_text;
+            .donate{
+            	margin-left: 4px;
+            	letter-spacing: normal;
+            }
+            &::after{
+            		font-family:app_text;
+                    content: "";
+                    color: #08c;
+                    padding-left: 3px;
+            	};
+            .donate:hover{
+            	text-decoration: underline;
+            }
+        }
+    }
+}
+
+
+@media screen and(max-width: map-get($rules,'small')){
+  @for $i from 1 through 10{
+    .with-#{$i}-col .col{
+      width: 100%;
+      h3{
+        font-size: 14px;
+        line-height: 38px;
+        position: relative;
+        height: 38px;
+        border-bottom: 1px solid #e3e3e3;
+      }
+      h3::after{
+    content:'+';
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    margin: auto;
+    right: 20px;
+  }
+    }
+
+    .col ul{
+     display: none;
+    }
+  }
+}
+.dibu{
+  height: auto;
+  background:#F2F2F2;
+  padding-bottom: 20px;
+  &::after{
+  @extend %clear;
+  };
+ .footer{
+  max-width:980px;
+  background:#F2F2F2;
+  margin: 0 auto;
+  &::after{
+  @extend %clear;
+  };
+  padding: 0 22px;
+  padding-top: 32px;
+  >li{
+    float: left;
+    height: auto;
+    min-width: 196px;
+    box-sizing:border-box;
+    input{
+    	display: none;
+    }
+  }
+}
+}
+
+.col h3{
+    font-size: 12px;
+    line-height: 1.66667;
+    font-weight: 600;
+    letter-spacing: normal;
+    color: #333;
+    font-family: myriad_text;
+}
+.content{
+	padding-bottom: 20px;
+	box-sizing:border-box;
+	li a{
+		font-family:myriad_thin;
+    font-weight: 300px;
+    font-size: 12px;
+		color: #666;
+	}
+	li:hover a{
+		text-decoration: underline;
+    color: #333;
+    font-size: 12px;
+	}
+}
+
+$ids:xuangou,shop,edu,business,value,store,count;
+@media screen and(max-width: $small){
+@each $id in $ids{
+  ##{$id}:checked +.section ul{
+    display: block;
+    margin-left: 10px;
+    font-family: "myriad_text";
+    font-weight: 300;
+  }##{$id}:checked+.section h3::after{
+    transform:rotatez(40deg);
+    transition:transform .4s ease;
+  };
+}
+.redcross-banner>span{
+  display: block;
+}
+}
+
+.banner ul >li{
+  text-align: center;
+  h2{
+   font-family: myriad_bold;
+    font-size: 48px;
+    line-height: 1.08333;
+    letter-spacing: 0;
+    text-align: center;
+}
+h3{
+  font-family:myriad_text;
+  font-size: 28px;
+  text-align: center;
+}
+  }
+  .banner_small ul >li{
+  text-align: center;
+  h2{
+   font-family: myriad_bold;
+    font-size: 38px;
+    line-height: 1.08333;
+    letter-spacing: 0;
+    text-align: center;
+}
+h3{
+  font-family:myriad_text;
+  font-size: 18px;
+  text-align: center;
+}
+  }
+.copy_inner{
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin:0 auto;
+  h2{
+    font-family: myriad_bold;
+    font-size: 48px;
+    line-height: 1.08333;
+    letter-spacing: 0;
+  }
+}
+.icon-play::after {
+  font-family:app_text;
+  content: "";
+  color: #1E96D2;
+}
+.media{
+  font-size: 22px;
+  display: inline-block;
+}
+.links{
+  text-align: center;
+  ul{
+     &::after{
+    @extend %clear;
+  };
+  }
+}
+.links>li{
+  float: left;
+  display: inline-block;
+}
+
+.banner{
+  height:600px;
+  margin: 40px auto;
+  width: 800px;
+  /*background: red;*/
+  position: relative;
+  overflow: hidden;
+  >ul{
+    width: 300%;
+    height: 300%;
+    /*@extend %clear;*/
+  }
+  li{
+    width: 800px;
+    height: 600px;
+    /*overflow: hidden;*/
+    /*position: absolute;*/
+    /*top: 40px;*/
+    float: left;
+    /*left: 0;*/
+  }
+.iphone_5e{
+    /*background: url($img-path+'iphone_se_medium.jpg');  */
+    background-size: 580px 517px;
+    min-width:580px;
+    min-height: 517px;
+  }
+  .ipad_pro{
+    /*background: url($img-path+'apple_watch_trio_medium.jpg') no-repeat;  */
+    background-size: 671px 341px;
+    overflow: visible;
+    min-width:671px;
+    min-height: 341px;
+  }
+  .iwatch{
+    /*background: url($img-path+'ipad_pro_family_medium.jpg') no-repeat;  */
+    background-size: 671px 341px;
+    overflow: visible;
+    min-width:671px;
+    min-height: 341px;
+  }
+}
+.links::after{
+  @extend %clear;
+}
+.copy_inner{
+/*  position: absolute;
+  left: 400px;
+  z-index: 5;
+  top: 180px;*/
+  margin: 0 auto;
+}
+.footer-links a{
+  font-family: "myriad_thin";
+  font-size: 12px;
+  color: #999;
+   border-right: 1px solid #d6d6d6;
+    margin-right: 10px;
+    padding-right: 12px;
+}
+#none_border{
+  border-right: 0;
+}
+#di{
+   max-width: 980px;
+   margin: 0 auto;
+   padding: 20px 0 24px 0;
+   .footer-links{
+    margin-left: 5px;
+   }
+}
+
+.banner_small{
+  height:300px;
+  margin: 20px auto;
+  width: 540px;
+  /*background: red;*/
+  position: relative;
+  overflow: hidden;
+  >ul{
+    width: 300%;
+    height: 300%;
+    @extend %clear;
+  }
+  li{
+    width: 540px;
+    height: 300px;
+    /*overflow: hidden;*/
+    /*position: absolute;*/
+    /*top: 40px;*/
+    float: left;
+    /*left: 0;*/
+  }
+.iphone_5e{
+    /*background: url($img-path+'iphone_se_medium.jpg');  */
+    /*background-size: 580px 517px;*/
+    min-width:540px;
+    min-height: 300px;
+  }
+  .ipad_pro{
+    /*background: url($img-path+'apple_watch_trio_medium.jpg') no-repeat;  */
+    /*background-size: 671px 341px;*/
+    /*overflow: visible;*/
+    min-width:540px;
+    min-height: 300px;
+  }
+  .iwatch{
+    /*background: url($img-path+'ipad_pro_family_medium.jpg') no-repeat;  */
+    /*background-size: 671px 341px;*/
+    /*overflow: visible;*/
+    min-width:540px;
+    min-height: 300px;
+  }
+}
+.banner_small{
+  display: none;
+}
+@media screen and(max-width:$small){
+  .banner{
+    display: none;
+  }
+  .banner_small{
+    display: block;
+  }
+}
+
+.dao{
+  max-width:767px;
+  height: 100%;
+  /*background: pink;*/
+  padding: 10px 25px;
+  font-family: myriad_thin;
+  font-size: 20px;
+  color: #fff;
+  background: #000000;
+  >li{
+    height: 48px;
+    text-align: left;
+    line-height: 48px;
+    border-bottom: 1px solid #333333;
+  }
+}
+.dao button{
+  &::before{
+    background:url("$img-path+'image_small.svg");
+  };
+}

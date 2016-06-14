@@ -1,0 +1,39 @@
+h1,h2,h3,h4,h5,h6,ul,li,body,p{
+   margin:0;
+   padding:0;
+}
+ul,li{
+	list-style:none;
+}
+body{
+    font-size: 18px;
+    line-height: 1.45;
+    font-weight: 400;
+    letter-spacing: normal;
+    color: #333;
+    font-style: normal;
+}
+a{
+	text-decoration: none;
+  color: #08c;
+}
+%clear{
+	content: "";
+	display: block;
+	clear: both;
+}
+%hiddentext{
+  position: absolute;
+  top:0;
+  left:0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+%hide{
+  content:"";
+  display:inline-block;
+  width:100%;
+  height:0;
+  line-height: 0;
+}
